@@ -79,12 +79,13 @@ class Binomial_Model:
                     early_exercise = max(0, self.price_tree[j, i] - self.K)
                 elif self.option_type == "put":
                     early_exercise = max(0, self.K - self.price_tree[j, i])
-
+                else:
+                    raise ValueError("Option type must be 'call' or 'put'.")
                 # take value of the option at each node as the maximum of holding and early exercise
                 self.option_tree[j, i] = max(hold, early_exercise)
 
         # value of the root at time 0 is the option price
-        return self.option_tree[0, 0]
+        return round(self.option_tree[0, 0], 2)
 
     def price(self):
         """
